@@ -35,6 +35,7 @@ function generarDivs() {
 $(function() {
     var f, c, carta;
 
+    $("#capcalera").html(nFiles + 'x' + nColumnes + ' cartes');
     $("#tauler").html(generarDivs());
 
     ampladaCarta = $(".carta").width();
