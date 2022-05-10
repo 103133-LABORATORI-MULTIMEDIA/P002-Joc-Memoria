@@ -10,6 +10,18 @@ var jocCartes = generarjocCartes();
 //     'carta3', 'carta3',
 // ]
 
+function generarCssCartes() {
+    // var cssCartes = '';
+    for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 13; j++) {
+            var cssCartes = '\n.carta' + (i * 13 + j) + '{background-position:-' + i * 124 + 'px -' + j * 79 + 'px;}';
+            $('.carta' + (i * 13 + j)).css(cssCartes);
+        }
+    }
+    console.log(cssCartes);
+    // return cssCartes;
+}
+
 function generarjocCartes() {
     var jocCartes = [];
     for (var i = 1; i <= nFiles * nColumnes; i++) {
@@ -35,6 +47,7 @@ function generarDivs() {
 $(function() {
     var f, c, carta;
 
+    generarCssCartes();
     $("#capcalera").html(nFiles + 'x' + nColumnes + ' cartes');
     $("#tauler").html(generarDivs());
 

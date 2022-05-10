@@ -16,8 +16,9 @@ body {
 .carta {
     /* width: 80px;     height: 120px; /* deck */
     /* width: 111px; height: 111px;  /* pokemon */
-    width: 79px; height: 119px;   /* poker1 */
-
+    width: 79px;
+    height: 119px;
+    /* poker1 */
     position: absolute;
     -webkit-perspective: 300px;
     /* Chrome, Safari, Opera  */
@@ -35,24 +36,23 @@ body {
     height: 100%;
     position: absolute;
     /* per poder moure la carta */
-
     transition-property: transform, shadow;
     transition-duration: .5s;
-
     backface-visibility: hidden;
 }
 
 .darrera {
     /*background: #999 url(../images/deck.png) 0px -480px; /*cartes DECK*/
-    background: #999 url(../images/poker1.png) 0px -496px; /*cartes POKER1*/
+    background: #999 url(../images/poker1.png) 0px -496px;
+    /*cartes POKER1*/
 }
 
 .davant {
     /*background: #efefef url(../images/deck.png); /*cartes DECK*/
-    background: #999 url(../images/poker1.png); /*cartes POKER1*/
+    background: #999 url(../images/poker1.png);
+    /*cartes POKER1*/
     transform: rotate3d(0, 1, 0, -180deg);
 }
-
 
 .carta-girada .darrera {
     transform: rotate3d(0, 1, 0, 180deg);
@@ -62,7 +62,10 @@ body {
     transform: rotate3d(0, 1, 0, 0deg);
 }
 
+
 /* deck */
+
+
 /* fila 120 - columna 80)
 .carta1 {background-position: 0 0;}
 .carta2 {background-position: -80px 0;} 
@@ -80,6 +83,8 @@ body {
 /*...
 
 /* pokemon */
+
+
 /* fila 111 - columna 111 
 .carta1{background-position:    0       0; }
 .carta2{background-position: -111px     0; }
@@ -92,16 +97,18 @@ body {
 
 
 /* poker1 */
-/* fila 124 - columna 79*/
+
+
+/* fila 124 - columna 79
 .carta1{background-position:    0     0  ; }
 .carta2{background-position:  -79px   0  ; }
 .carta3{background-position: -158px   0  ; }
-/*...*/
+/*...
 .carta14{background-position:    0    -124px; }
 .carta15{background-position:  -79px  -124px; }
 .carta16{background-position:  -158px -124px; }
-/*...*/
+/*...
 .carta39{background-position:    -948px -248px; }
-/*...*/
+/*...
 .carta40{background-position:    0   -372px; }
 /*...*/
