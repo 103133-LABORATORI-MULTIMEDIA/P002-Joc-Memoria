@@ -4,18 +4,19 @@ var separacioH = 20,
 var nFiles = 4,
     nColumnes = 4;
 
-var jocCartes = [
-    'carta1', 'carta1',
-    'carta3', 'carta3',
-]
+// [
+var jocCartes = generarjocCartes();
+//     'carta1', 'carta1',
+//     'carta3', 'carta3',
+// ]
 
 function generarjocCartes() {
     var jocCartes = [];
-    for (var i = 0; i < nFiles; i++) {
-        for (var j = 0; j < nColumnes; j++) {
-            jocCartes.push('carta' + (i * nColumnes + j + 1));
-        }
+    for (var i = 1; i <= nFiles * nColumnes; i++) {
+        jocCartes.push('carta' + i);
+        jocCartes.push('carta' + i);
     }
+    console.log(jocCartes);
     return jocCartes;
 }
 
