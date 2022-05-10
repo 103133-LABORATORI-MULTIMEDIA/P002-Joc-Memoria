@@ -4,7 +4,7 @@ var nFiles = 4, nColumnes = 4;
 
 var jocCartes = [
     'carta1', 'carta1',
-    'carta39', 'carta39',
+    'carta3', 'carta3',
 ]
 
 function generarDivs(){
