@@ -5,30 +5,34 @@ var nFiles = 4,
     nColumnes = 4;
 
 // [
-var jocCartes = generarjocCartes();
-//     'carta1', 'carta1',
-//     'carta3', 'carta3',
-// ]
+var jocCartes = shuffle(generarjocCartes());
+
+
+function shuffle(arr){
+    var m=arr.length, t, i;
+    while (m){
+        i=Math.floor(Math.random()*m--);
+        t=arr[m]; arr[m]=arr[i]; arr[i]=t;
+    }
+    return arr;
+}
 
 function generarCssCartes() {
-    // var cssCartes = '';
-    for (var i = 0; i < 4; i++) {
-        for (var j = 0; j < 13; j++) {
-            var cssCartes = '\n.carta' + (i * 13 + j) + '{background-position:-' + i * 124 + 'px -' + j * 79 + 'px;}';
-            $('.carta' + (i * 13 + j)).css(cssCartes);
-            console.log(cssCartes);
+    for (var i = 0; i<nFiles; i++) {
+        for (var j = 0; j < nColumnes; j++) {
+            $('.carta' + (i * nColumnes + j)).css("background-position", "-"+(j*79)%(79*13)+"px -"+(i*124)%(124*4)+"px");
         }
     }
-    // return cssCartes;
 }
+
 
 function generarjocCartes() {
     var jocCartes = [];
-    for (var i = 1; i <= nFiles * nColumnes; i++) {
+    for (var i = 0; i < nFiles*nColumnes/2; i++) {
         jocCartes.push('carta' + i);
         jocCartes.push('carta' + i);
     }
-    console.log(jocCartes);
+
     return jocCartes;
 }
 
@@ -46,29 +50,29 @@ function generarDivs() {
 
 $(function() {
     var f, c, carta;
-
-    generarCssCartes();
-    $("#capcalera").html(nFiles + 'x' + nColumnes + ' cartes');
+    
+    $("#capcalera").html(nFiles+'x'+nColumnes+' cartes');
     $("#tauler").html(generarDivs());
 
-    ampladaCarta = $(".carta").width();
-    alcadaCarta = $(".carta").height();
+    ampladaCarta=$(".carta").width();
+    alcadaCarta=$(".carta").height();
     // mida del tauler
     $("#tauler").css({
         "width": ampladaCarta * nColumnes + separacioH * (nColumnes + 1) + "px",
         "height": alcadaCarta * nFiles + separacioV * (nFiles + 1) + "px"
     });
     // inicialitzem totes les cartes: posició
-    for (f = 1; f <= nFiles; f++)
+    for (f = 1; f <= nFiles; f++) {
         for (c = 1; c <= nColumnes; c++) {
-            carta = $("#f" + f + "c" + c);
+            carta=$("#f" + f + "c" + c);
             carta.css({
                 "left": ((c - 1) * (ampladaCarta + separacioH) + separacioH) + "px",
                 "top": ((f - 1) * (alcadaCarta + separacioV) + separacioV) + "px"
             });
-            carta.find(".davant").addClass(jocCartes.pop());
-
+            carta.find(".davant").addClass(jocCartes.pop())
         }
+    }
+    generarCssCartes();
 
     $(".carta").click(function() {
         $(this).toggleClass("carta-girada");
