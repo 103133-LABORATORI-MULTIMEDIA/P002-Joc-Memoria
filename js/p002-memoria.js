@@ -16,9 +16,9 @@ function generarCssCartes() {
         for (var j = 0; j < 13; j++) {
             var cssCartes = '\n.carta' + (i * 13 + j) + '{background-position:-' + i * 124 + 'px -' + j * 79 + 'px;}';
             $('.carta' + (i * 13 + j)).css(cssCartes);
+            console.log(cssCartes);
         }
     }
-    console.log(cssCartes);
     // return cssCartes;
 }
 
