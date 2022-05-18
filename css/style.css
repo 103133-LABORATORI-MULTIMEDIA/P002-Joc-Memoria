@@ -23,7 +23,7 @@ body {
     -webkit-perspective: 300px;
     /* Chrome, Safari, Opera  */
     perspective: 300px;
-    /*transition: all .3s; */
+    transition: all 1s;
 }
 
 .carta:hover .cara {

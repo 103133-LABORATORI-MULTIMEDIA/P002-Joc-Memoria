@@ -3,10 +3,10 @@ var separacioH = 20,
     separacioV = 20;
 var nFiles = 4,
     nColumnes = 4;
-var intents = 0;
-var anterior = 0;
+var intents = 0,
+    anterior = 0;
 
-// [
+
 var jocCartes = generarjocCartes();
 // var jocCartes = shuffle(generarjocCartes());
 
@@ -80,39 +80,31 @@ $(function() {
 
     $(".carta").click(function() {
         intents++;
+        if(anterior!=this){
+            $(this).toggleClass("carta-girada");
 
-        $(this).toggleClass("carta-girada");        
-        console.log(this)
+            if(anterior!=0){
+                ncarta=$($(this).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
+                nanterior=$($(anterior).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
+                
+                if(ncarta==nanterior){
+                    for (let a of [this,anterior]){
+                        $(a).css("opacity","0.6");
+                    }
+                    $(".carta"+ncarta).parent().css("pointer-events", "none");
+                }else{
+                    tmp=[this,anterior];
+                    setTimeout(function() {
+                        for (let a of tmp){
+                            $(a).toggleClass("carta-girada");
+                        }
 
-        if(anterior != 0){
-            if($($(this).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1] == $($(anterior).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]){
-                console.log("eliminar carta")
-
-                tmp=[this, anterior];
-                setTimeout(function() {
-                    $(tmp[0]).fadeOut();
-                    $(tmp[1]).fadeOut();
-                    console.log("carta girada");
-
-                }, 1000); 
+                    }, 700);                
+                }
+                anterior=0;
+            }else{
+                anterior=this;
             }
-            else{
-                // girar anterior i actual
-                console.log("girar carta")
-
-                tmp=[this, anterior];
-                setTimeout(function() {
-                    $(tmp[0]).toggleClass("carta-girada");
-                    $(tmp[1]).toggleClass("carta-girada");
-                    console.log("carta girada");
-
-                }, 1000);                
-            }
-            anterior=0;
-        }
-        else{
-            anterior = this;
-            console.log("else")
         }
     });
 
