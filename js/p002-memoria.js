@@ -53,33 +53,47 @@ function generarDivs() {
 
 
 $(function() {
-    var f, c, carta;
+    $(".joc").hide(); $(".prejoc").show();
     
-    $("#capcalera").html(nFiles+'x'+nColumnes+' cartes');
-    $("#tauler").html(generarDivs());
 
-    ampladaCarta=$(".carta").width();
-    alcadaCarta=$(".carta").height();
-    // mida del tauler
-    $("#tauler").css({
-        "width": ampladaCarta * nColumnes + separacioH * (nColumnes + 1) + "px",
-        "height": alcadaCarta * nFiles + separacioV * (nFiles + 1) + "px"
-    });
-    // inicialitzem totes les cartes: posició
-    for (f = 1; f <= nFiles; f++) {
-        for (c = 1; c <= nColumnes; c++) {
-            carta=$("#f" + f + "c" + c);
-            carta.css({
-                "left": ((c - 1) * (ampladaCarta + separacioH) + separacioH) + "px",
-                "top": ((f - 1) * (alcadaCarta + separacioV) + separacioV) + "px"
-            });
-            carta.find(".davant").addClass(jocCartes.pop())
+    $(".jugar").click(function(){ 
+        nFiles=parseInt($("#fils").val());
+        nColumnes=parseInt($("#cols").val());
+        $("#capcalera").html(nFiles+'x'+nColumnes+' cartes');
+
+        $(".joc").show(); $(".prejoc").hide();
+
+        $("#tauler").html(generarDivs()); 
+        // posible animacio: posarles en X i Y random per fora de la pantalla.
+        // despres moureho tot a la seva posicio correcte. 
+
+        ampladaCarta=$(".carta").width();
+        alcadaCarta=$(".carta").height();
+        
+        // mida del tauler
+        $("#tauler").css({
+            "width": ampladaCarta * nColumnes + separacioH * (nColumnes + 1) + "px",
+            "height": alcadaCarta * nFiles + separacioV * (nFiles + 1) + "px"
+        });
+
+        // inicialitzem totes les cartes: posició
+        // animacio de moure les cartes al seu lloc aqui?
+        for (let f = 1; f <= nFiles; f++) {
+            for (let c = 1; c <= nColumnes; c++) {
+                let carta=$("#f"+f+"c"+c);
+                carta.css({
+                    "left":((c-1)*(ampladaCarta+separacioH)+separacioH) + "px",
+                    "top":((f-1)*(alcadaCarta+separacioV)+separacioV) + "px"
+                });
+                carta.find(".davant").addClass(jocCartes.pop())
+            }
         }
-    }
-    generarCssCartes();
+        generarCssCartes();
+    });
 
     $(".carta").click(function() {
         intents++;
+        
         if(anterior!=this){
             $(this).toggleClass("carta-girada");
 
@@ -109,3 +123,11 @@ $(function() {
     });
 
 });
+
+
+// Detecteu la situació de final de partida: totes les cartes eliminades. Feu aparèixer un missatge 
+// quan es doni aquesta situació i permeteu tornar a jugar una altra partida. 
+
+// Detecteu si l’usuari ha fet tants clics com el triple de cartes del joc. En aquest cas, l’usuari perd 
+// la partida. Feu aparèixer un missatge quan es doni aquesta situació i permeteu tornar a jugar 
+// una altra partida
