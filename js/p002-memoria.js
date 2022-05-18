@@ -76,7 +76,7 @@ $(function() {
 
     $(".carta").click(function() {
         $(this).toggleClass("carta-girada");
-        console.log(this)
+        console.log($($(this).find(".davant")[0]).attr("class").split("carta")[1]);
     });
 
 });
