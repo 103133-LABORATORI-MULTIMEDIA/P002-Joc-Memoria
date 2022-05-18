@@ -3,9 +3,13 @@ var separacioH = 20,
     separacioV = 20;
 var nFiles = 4,
     nColumnes = 4;
+var intents = 0;
+var anterior = 0;
 
 // [
-var jocCartes = shuffle(generarjocCartes());
+var jocCartes = generarjocCartes();
+// var jocCartes = shuffle(generarjocCartes());
+
 
 
 function shuffle(arr){
@@ -75,8 +79,41 @@ $(function() {
     generarCssCartes();
 
     $(".carta").click(function() {
-        $(this).toggleClass("carta-girada");
-        console.log($($(this).find(".davant")[0]).attr("class").split("carta")[1]);
+        intents++;
+
+        $(this).toggleClass("carta-girada");        
+        console.log(this)
+
+        if(anterior != 0){
+            if($($(this).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1] == $($(anterior).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]){
+                console.log("eliminar carta")
+
+                tmp=[this, anterior];
+                setTimeout(function() {
+                    $(tmp[0]).fadeOut();
+                    $(tmp[1]).fadeOut();
+                    console.log("carta girada");
+
+                }, 1000); 
+            }
+            else{
+                // girar anterior i actual
+                console.log("girar carta")
+
+                tmp=[this, anterior];
+                setTimeout(function() {
+                    $(tmp[0]).toggleClass("carta-girada");
+                    $(tmp[1]).toggleClass("carta-girada");
+                    console.log("carta girada");
+
+                }, 1000);                
+            }
+            anterior=0;
+        }
+        else{
+            anterior = this;
+            console.log("else")
+        }
     });
 
 });
