@@ -1,46 +1,81 @@
-<html lang="cat">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Donar la volta a una carta</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/p002-memoria.js"></script>
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <title>Donar la volta a una carta</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/p002-memoria.js"></script>
+    <body>
+        <header>
+            <h1 id="capcalera">Memory</h1>
+        </header>
 
-</head>
-
-<body>
-    <header>
-        <h1 id="capcalera">Memory</h1>
-    </header>
-
-    
-    <div class="menu prejoc">
-        <input type="number" min="2" max="20" placeholder="Columnes..." id="cols" required> <input type="number" min="2" max="20" placeholder="Files..." id="fils" required>
-        <button class="jugar">Jugar</button>
-    </div>    
-    <div id="tauler" class="joc"> </div>
-    
-    <div class="end-game">
-        <div class="end-game-container">
-            <div class="success">
-                <h1>Has guanyat!</h1>
+        
+        <div class="menu prejoc center">
+            <h2>Clica per veure com son les cartes.</h2>
+            <div class="cartes-menu">
+                <div class="cartes-holder"></div>
+                <div class="cartes-radio"></div>
+                <i>Tria la teva carta</i>
             </div>
-            <div class="fail">
-                <h1>Has perdut!</h1>
-                <p ></p>
+            
+            
+
+            <div class="menu-container">
+                <div>
+                    <label for="cols">Columnes:</label>
+                    <input 
+                        type="number" 
+                        min="2" 
+                        max="20" 
+                        value="4"
+                        id="cols" 
+                        required
+                    >
+                </div>
+                <div>
+                    <label for="fils">Files:</label>
+                    <input 
+                        type="number" 
+                        min="2" 
+                        max="20" 
+                        value="4" 
+                        id="fils" 
+                        required
+                    >
+                </div>
             </div>
 
-            <div class="torna-jugar">
-                <button onclick="location.reload()">Tornar a jugar</button>
+            <button class="jugar">Jugar</button>
+        </div>    
+        <div id="tauler" class="joc"> </div>
+        
+        <div class="end-game">
+            <div class="end-game-msg-container center">
+                <div class="success">
+                    <h1>Has guanyat!</h1>
+                </div>
+                <div class="fail">
+                    <h1>Has perdut!</h1>
+                </div>
+
+                <div class="tornar-jugar">
+                    <button onclick="location.reload()">Tornar a jugar</button>
+                </div>
             </div>
         </div>
 
-    </div>
-
-    <footer>
-        <p class="joc">Fes clic en una carta per donar-li la volta</p>
-    </footer>
-</body>
-
+        <footer class="joc">
+            <h2 >
+                <span id="intents">0</span>/<span id="max-intents">X</span>
+                Clicks restants
+            </h2>
+            <p>Fes clic en una carta per donar-li la volta</p>
+            <div class="tornar-jugar">
+                <button onclick="location.reload()">Partida nova</button>
+            </div>
+        </footer>
+    </body>
 </html>
