@@ -57,11 +57,15 @@ $(function() {
     
 
     $(".jugar").click(function(){ 
-        nFiles=parseInt($("#fils").val());
-        nColumnes=parseInt($("#cols").val());
+        u_nFiles=parseInt($("#fils").val());
+        u_nColumnes=parseInt($("#cols").val());
+
+        // manage u_data
+
         $("#capcalera").html(nFiles+'x'+nColumnes+' cartes');
 
-        $(".joc").show(); $(".prejoc").hide();
+        $(".joc").show(); 
+        $(".prejoc").hide();
 
         $("#tauler").html(generarDivs()); 
         // posible animacio: posarles en X i Y random per fora de la pantalla.
@@ -81,6 +85,7 @@ $(function() {
         for (let f = 1; f <= nFiles; f++) {
             for (let c = 1; c <= nColumnes; c++) {
                 let carta=$("#f"+f+"c"+c);
+                
                 carta.css({
                     "left":((c-1)*(ampladaCarta+separacioH)+separacioH) + "px",
                     "top":((f-1)*(alcadaCarta+separacioV)+separacioV) + "px"
@@ -89,39 +94,38 @@ $(function() {
             }
         }
         generarCssCartes();
-    });
 
-    $(".carta").click(function() {
-        intents++;
-        
-        if(anterior!=this){
-            $(this).toggleClass("carta-girada");
-
-            if(anterior!=0){
-                ncarta=$($(this).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
-                nanterior=$($(anterior).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
-                
-                if(ncarta==nanterior){
-                    for (let a of [this,anterior]){
-                        $(a).css("opacity","0.6");
-                    }
-                    $(".carta"+ncarta).parent().css("pointer-events", "none");
-                }else{
-                    tmp=[this,anterior];
-                    setTimeout(function() {
-                        for (let a of tmp){
-                            $(a).toggleClass("carta-girada");
+        $(".carta").click(function(){
+            intents++;
+            
+            if(anterior!=this){
+                $(this).toggleClass("carta-girada");
+    
+                if(anterior!=0){
+                    ncarta=$($(this).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
+                    nanterior=$($(anterior).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
+                    
+                    if(ncarta==nanterior){
+                        for (let a of [this,anterior]){
+                            $(a).css("opacity","0.6");
                         }
-
-                    }, 700);                
+                        $(".carta"+ncarta).parent().css("pointer-events", "none");
+                    }else{
+                        tmp=[this,anterior];
+                        setTimeout(function() {
+                            for (let a of tmp){
+                                $(a).toggleClass("carta-girada");
+                            }
+    
+                        }, 700);                
+                    }
+                    anterior=0;
+                }else{
+                    anterior=this;
                 }
-                anterior=0;
-            }else{
-                anterior=this;
             }
-        }
-    });
-
+        });
+    });    
 });
 
 

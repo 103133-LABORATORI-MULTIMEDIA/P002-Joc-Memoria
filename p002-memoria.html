@@ -14,11 +14,28 @@
         <h1 id="capcalera">Memory</h1>
     </header>
 
-    <div id="tauler" class="joc"> </div>
-
+    
     <div class="menu prejoc">
         <input type="number" min="2" max="20" placeholder="Columnes..." id="cols" required> <input type="number" min="2" max="20" placeholder="Files..." id="fils" required>
         <button class="jugar">Jugar</button>
+    </div>    
+    <div id="tauler" class="joc"> </div>
+    
+    <div class="end-game">
+        <div class="end-game-container">
+            <div class="success">
+                <h1>Has guanyat!</h1>
+            </div>
+            <div class="fail">
+                <h1>Has perdut!</h1>
+                <p ></p>
+            </div>
+
+            <div class="torna-jugar">
+                <button onclick="location.reload()">Tornar a jugar</button>
+            </div>
+        </div>
+
     </div>
 
     <footer>
