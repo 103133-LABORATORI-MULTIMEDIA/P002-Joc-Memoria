@@ -8,20 +8,33 @@
     </head>
 
     <body>
+        <div class="theme-changer">
+            <label class="switch">
+                <input type="checkbox" value="1" onclick="themeChanger()">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
         <header>
             <h1 id="capcalera">Memory</h1>
         </header>
-
         
         <div class="menu prejoc center">
             <h2>Clica per veure com son les cartes.</h2>
             <div class="cartes-menu">
                 <div class="cartes-holder"></div>
                 <div class="cartes-radio"></div>
-                <i>Tria la teva carta</i>
+                <i>Tria la teva carta.</i>
             </div>
             
-            
+            <div class="timer-menu">
+                <div>
+                    <label for="60" class="imp">60s <input type="radio" name="timer" value="60" id="60"></label>
+                    <label for="120" class="med">120s <input type="radio" name="timer" value="120" id="120"></label>
+                    <label for="240" class="easy">240s <input type="radio" name="timer" value="240" id="240" checked></label>
+                </div>
+                <i>Tria el temps del temporitzador.</i>
+            </div>
 
             <div class="menu-container">
                 <div>
@@ -68,10 +81,15 @@
         </div>
 
         <footer class="joc">
-            <h2 >
+            <h1 id="seconds">120s</h1>
+            <h3>
                 <span id="intents">0</span>/<span id="max-intents">X</span>
                 Clicks restants
-            </h2>
+            </h3>
+            <h3>
+                <span id="encerts">0</span>/<span id="max-encerts">X</span>
+                Trobades 
+            </h3>
             <p>Fes clic en una carta per donar-li la volta</p>
             <div class="tornar-jugar">
                 <button onclick="location.reload()">Partida nova</button>

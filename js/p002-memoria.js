@@ -31,6 +31,7 @@ const CARTES = {
     }
 };
 
+
 var separacioH = 20,
     separacioV = 20;
 
@@ -41,10 +42,19 @@ var intents = 0,
     encerts = 0,
     anterior = 0;
 
+var timer=10;
+    start_timer=false;
+
 var jocCartes, 
     selectedCarta=CARTES["poker"];
 
 
+var audio={
+        "CardFlip":new Audio("audio/card_flip.mp3"),
+        "Tada":new Audio("audio/tada.mp3"),
+        "Fail":new Audio("audio/fail.mp3"),
+        "Point":new Audio("audio/point.mp3")
+    };
 
 // comprova si n es un numero.
 function isNumber(n){
@@ -127,16 +137,32 @@ function setupMissatges(){
     $("#max-intents").html(nFiles*nColumnes*3);
     $("#intents").html(nFiles*nColumnes*3);
 
+    $("#max-encerts").html(nFiles*nColumnes/2);
+
+    $("#seconds").text(timer);
+
     // dimensions del camp
     $("#capcalera").html(nFiles+'x'+nColumnes+' cartes');
 }
 
 // posiciona cada carta al seu lloc predeterminat.
 function posicionaCartes(){
-    for (let f = 1; f <= nFiles; f++) {
-        for (let c = 1; c <= nColumnes; c++) {
+    for (let f=1;f<=nFiles;f++) {
+        for (let c=1;c<=nColumnes;c++) {
             let carta=$("#f"+f+"c"+c);
             carta.css({
+                "left":($("#tauler").width()/2-ampladaCarta/2)+"px",
+                "top":($("#tauler").height()/2-alcadaCarta/2)+"px"
+            });
+            carta.find(".davant").addClass(jocCartes.pop())
+        }
+    }
+
+
+    for (let f=1;f<=nFiles;f++) {
+        for (let c=1;c<=nColumnes;c++) {
+            let carta=$("#f"+f+"c"+c);
+            carta.delay(1000*(f-1)+300*(c-1)).animate({
                 "left":((c-1)*(ampladaCarta+separacioH)+separacioH)+"px",
                 "top":((f-1)*(alcadaCarta+separacioV)+separacioV)+"px"
             });
@@ -161,8 +187,8 @@ function verificarDimensions(){
         minims &&
         maxims 
     ) {
-        nColumnes=uColumnes;
-        nFiles=uFiles;
+        nColumnes=uColumnes; nFiles=uFiles;
+        return true;
     } else {
         msg="Hi ha hagut un error al triar les dimensions!\nS'han agafat les dimensions per defecte (4x4).\n\nErrors:\n";
         
@@ -180,46 +206,43 @@ function verificarDimensions(){
         }
 
         window.alert(msg);
-    }   
+    }
+    return false
 }
 
 // prepara el camp de joc.
 function setupJoc(){
-    verificarDimensions();
+    timer=$("input[name=timer]:checked").val();
+
     setupMissatges();
 
-    jocCartes=generarjocCartes()
-    // shuffle(generarjocCartes());
+
+    jocCartes=shuffle(generarjocCartes());
     $("#tauler").html(generarDivs()); 
-    
-
-    // posible animacio: posarles en X i Y random per fora de la pantalla.
-    // despres moureho tot a la seva posicio correcte. 
-
     
     setupCarta();
     
     ampladaCarta=selectedCarta.width;
     alcadaCarta=selectedCarta.height;
-
     
-    posicionaCartes();
-    generarCssCartes();
-
     $("#tauler").css({
         "width": ampladaCarta*nColumnes+separacioH*(nColumnes+1)+"px",
         "height": alcadaCarta*nFiles+separacioV*(nFiles+1)+"px"
     });
+
+    posicionaCartes();
+    generarCssCartes();
 
     $(".joc").show(); 
     $(".prejoc").hide();
 }
 
 // funcio amb la logica principal del joc.
-function gameProcess(carta){            
+function gameProcess(carta){
     if(anterior!=carta){
         updateIntents();
         $(carta).toggleClass("carta-girada");
+        audio["CardFlip"].play();
 
         if(anterior!=0){
             nCarta=$($(carta).find(".davant")[0]).attr("class").split(" ")[2].split("carta")[1]
@@ -241,6 +264,7 @@ function gameProcess(carta){
 
 // Cas de si ambes cartes girades siguin les mateixess.
 function cartesEncertades(cardNum, tmp){
+    audio["Point"].play();
     for (let a of tmp){
         $(a).css("opacity","0.6");
     }
@@ -249,6 +273,7 @@ function cartesEncertades(cardNum, tmp){
 
 // Cas de que les dos cartes girades siguin diferents.
 function cartesEquivocades(tmp){
+    audio["Fail"].play();
     setTimeout(function() {
         for (let a of tmp){
             $(a).toggleClass("carta-girada");
@@ -269,26 +294,28 @@ function updateIntents(){
 }
 
 // actualitza els encerts
-// actualment no fa res, simplement augmenta var encert.
 function updateEncerts(){
     encerts++;
-    // $("#encerts").html(encerts);
+    $("#encerts").html(encerts);
 }
 
 // missatge de joc perdut
 function gameover(){
     endgameMsg()
     $(".fail").show()
+    audio["Fail"].play();
 }
-0
+
 // missatge de joc guanyat
 function goodgame(){
     endgameMsg()
     $(".success").show()
+    audio["Tada"].play();
 }
 
 // fa visible el contanidor dels missatges de fi de joc
 function endgameMsg(){
+    start_timer=false;
     $(".end-game").show()
     location.href="#"; // avoid bug in webkit
     location.href="#capcelera";
@@ -299,8 +326,7 @@ function endgameMsg(){
 // monta el menu per triar cartes i li dona funcionalitat.
 function triarCartesMenu(){
     for(var c in CARTES){
-        $(".cartes-holder")
-        .append(
+        $(".cartes-holder").append(
             "<div class='carta triar-carta "+c+"'><div class='cara davant'></div><div class='cara darrera'></div></div>"
         );
 
@@ -318,12 +344,13 @@ function triarCartesMenu(){
         )
 
         $(".cartes-radio").append(
-            "<input type='radio' name='carta' class='carta-rd' value='"+c+"'>"
+            "<input type='radio' name='carta' class='carta-rd' value='"+c+"' "+((Object.keys(CARTES).indexOf(c)==0)? "checked":"")+">"
         );
     }
     
     $(".triar-carta").click(function(){
         $(this).toggleClass("carta-girada");
+        audio["CardFlip"].play();
     });
 
     var prev=0;
@@ -338,23 +365,39 @@ function triarCartesMenu(){
     });
 }
 
+// cambia el tema de la pag. web.
+function themeChanger(){
+    $("body").toggleClass("dark");
+}
+
 $(function() {
     triarCartesMenu();
-    $(".jugar").click(function(){ 
 
-        setupJoc();
-        $(".carta").click(function(){
-            gameProcess(this);
+    $(".jugar").click(function(){
+        if(verificarDimensions()){
+            setupJoc();
+            $(".carta").click(function(){
+                start_timer=true; 
+                gameProcess(this);
 
-            if(intents>=nColumnes*nFiles*3){
-                gameover();
-            }else if(encerts==(nColumnes*nFiles/2)){
-                goodgame();
-            }
-        });
+                if(intents>=nColumnes*nFiles*3){
+                    gameover();
+                }else if(encerts==(nColumnes*nFiles/2)){
+                    goodgame();
+                }
+            });
+
+
+            setInterval(function() {
+                if(start_timer){
+                    if (timer<0){
+                        gameover();
+                    } else {
+                        $("#seconds").text(timer--);
+                    }
+                }
+                
+            }, 1000);
+        }
     });    
 });
-
-
-// audios
-// animacio de posar carta (desde el centre)
