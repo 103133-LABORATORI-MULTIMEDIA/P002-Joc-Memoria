@@ -1,5 +1,19 @@
+
+// AMPLIACIONS:
+//      - marcador (clics restants + encerts actuals) -> es va actualitzant amb updateIntents() i updateEncerts()
+//      - temporitzador -> dintre de $(function(){ ... })
+//      - setup inicial:
+//          - canviar el tamany del taulell. -> verificarDimensions()
+//          - animació des d'una pila de cartes (es posen primer al mig i desde alla es reperteixen) -> posicionaCartes()
+//          - tria de cartes per jugar -> triarCartesMenu()
+//          - posibilitat de canviar el temps (60segons mes dificil fins a 240segons el mes facil.)
+//      - audios (al girar carta, al encertar parella, parella equivocada, al guanyar i perdre.) -> audio[" ... "].play()
+//      - posibilitat de canviar el "theme" (switch posicionat al top esquerra.) -> themeChanger()
+
+
 const MIN_COLUMNA=2, MAX_COLUMNA=20,
       MIN_FILA=2, MAX_FILA=20;
+
       
 const CARTES = {
     "poker":{
@@ -42,19 +56,20 @@ var intents = 0,
     encerts = 0,
     anterior = 0;
 
-var timer=10;
+var timer=60;
     start_timer=false;
 
 var jocCartes, 
     selectedCarta=CARTES["poker"];
 
-
+// AMPLIACIO: Audios 
 var audio={
-        "CardFlip":new Audio("audio/card_flip.mp3"),
-        "Tada":new Audio("audio/tada.mp3"),
-        "Fail":new Audio("audio/fail.mp3"),
-        "Point":new Audio("audio/point.mp3")
+        "CardFlip":new Audio("audio/card_flip.mp3"),  // girar carta
+        "Tada":new Audio("audio/tada.mp3"), // guanyar partida
+        "Fail":new Audio("audio/fail.mp3"), // perdre partida + parella equivocada
+        "Point":new Audio("audio/point.mp3") // encertar parella
     };
+
 
 // comprova si n es un numero.
 function isNumber(n){
@@ -145,7 +160,7 @@ function setupMissatges(){
     $("#capcalera").html(nFiles+'x'+nColumnes+' cartes');
 }
 
-// posiciona cada carta al seu lloc predeterminat.
+// AMPLIACIO: posiciona cada carta al seu lloc predeterminat amb una animacio.
 function posicionaCartes(){
     for (let f=1;f<=nFiles;f++) {
         for (let c=1;c<=nColumnes;c++) {
@@ -171,7 +186,7 @@ function posicionaCartes(){
     }
 }
 
-// verifica les dimensions entrades pel usuari.
+// AMPLIACIO: verifica les dimensions entrades pel usuari.
 function verificarDimensions(){
     let uFiles=parseInt($("#fils").val());
     let uColumnes=parseInt($("#cols").val());
@@ -210,7 +225,7 @@ function verificarDimensions(){
     return false
 }
 
-// prepara el camp de joc.
+// prepara el camp de joc. + AMPLIACIO (temporitzador: var timer)
 function setupJoc(){
     timer=$("input[name=timer]:checked").val();
 
@@ -282,7 +297,7 @@ function cartesEquivocades(tmp){
     }, 700);
 }
 
-// Actualitza l'<span id="intents"> amb el numero de clicks actual.
+// AMPLIACIO: Actualitza l'<span id="intents"> amb el numero de clicks actual.
 function updateIntents(){
     intents++;
     let restants=(nColumnes*nFiles*3)-intents;
@@ -293,7 +308,7 @@ function updateIntents(){
 
 }
 
-// actualitza els encerts
+// AMPLIACIO: actualitza els encerts
 function updateEncerts(){
     encerts++;
     $("#encerts").html(encerts);
@@ -323,7 +338,7 @@ function endgameMsg(){
     $("body").css("overflow", "hidden");
 }
 
-// monta el menu per triar cartes i li dona funcionalitat.
+// AMPLIACIO: monta el menu per triar cartes i li dona funcionalitat.
 function triarCartesMenu(){
     for(var c in CARTES){
         $(".cartes-holder").append(
@@ -365,7 +380,7 @@ function triarCartesMenu(){
     });
 }
 
-// cambia el tema de la pag. web.
+// AMPLIACIO: cambia el "theme" de la pag. web.
 function themeChanger(){
     $("body").toggleClass("dark");
 }
@@ -387,7 +402,7 @@ $(function() {
                 }
             });
 
-
+            // AMPLIACIO: Temporitzador
             setInterval(function() {
                 if(start_timer){
                     if (timer<0){
@@ -401,3 +416,4 @@ $(function() {
         }
     });    
 });
+// // //

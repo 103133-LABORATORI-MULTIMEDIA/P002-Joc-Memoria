@@ -214,16 +214,23 @@ footer.joc h3 {
     color:#397d02 !important;
 }
 
+/* Sombra a la carta selecionada del manu. */
 .fix{
     border-radius: 15px;
     box-shadow: 0px 0px 20px 5px #397d02;
 }
+/* END */
+
 
 input[type=radio] {
     width: 1.5em;
     height: 1.5em;
 }
 
+
+
+
+/* Classes pel switch de "theme" fosc/blanc */
 
 .theme-changer{
     position: absolute;
@@ -294,9 +301,11 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+/* END */
 
 
-/* Dark theme */
+
+/* Classes pel "theme" fosc */
 
 .dark {
     color: white;
@@ -314,3 +323,4 @@ input:checked + .slider:before {
 .dark * {
     border-color:white !important;
 }
+/* END */
